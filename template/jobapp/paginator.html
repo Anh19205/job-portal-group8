@@ -1,0 +1,49 @@
+{% if page_obj.has_other_pages %}
+<!-- Nếu có nhiều hơn 1 trang thì hiển thị thanh phân trang -->
+<div class="row pagination-wrap">
+  
+  <!-- Cột bên trái: hiển thị số trang hiện tại trên tổng số trang -->
+  <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+    <span id="page_navigator">
+      Showing {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} Pages
+      <!-- Ví dụ: Showing 2 of 5 Pages -->
+    </span>
+  </div>
+
+  <!-- Cột bên phải: các liên kết phân trang (Prev, số trang, Next) -->
+  <div class="col-md-6 text-center text-md-right">
+    <div class="custom-pagination ml-auto">
+      
+      <!-- Nút "Prev" nếu có trang trước đó -->
+      <span id="prev_page">
+        {% if page_obj.has_previous %}
+        <a id="ajax_paginator" href="?page={{ page_obj.previous_page_number }}" class="prev">Prev</a>
+        {% endif %}
+      </span>
+
+      <!-- Hiển thị các số trang -->
+      <span id="page_no">
+        <div class="d-inline-block">
+          {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+              <!-- Nếu là trang hiện tại thì thêm class active -->
+              <a id="ajax_paginator" class="ajax_paginator_{{ i }} active" href="?page={{ i }}">{{ i }}</a>
+            {% else %}
+              <!-- Các trang khác -->
+              <a class="ajax_paginator_{{ i }}" id="ajax_paginator" href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </span>
+
+      <!-- Nút "Next" nếu có trang sau -->
+      {% if page_obj.has_next %}
+      <span id="next_page">
+        <a id="ajax_paginator" class="next" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </span>
+      {% endif %}
+    
+    </div>
+  </div>
+</div>
+{% endif %}
